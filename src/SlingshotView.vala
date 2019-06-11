@@ -244,6 +244,7 @@ namespace Slingshot {
             view_selector.mode_changed.connect (() => {
 
                 set_modality ((Modality) view_selector.selected);
+                search_entry.grab_focus ();
             });
 
             // Auto-update settings when changed
@@ -656,7 +657,6 @@ namespace Slingshot {
                     view_selector_revealer.set_reveal_child (true);
                     stack.set_visible_child_name ("normal");
 
-                    search_entry.grab_focus ();
                     break;
 
                 case Modality.CATEGORY_VIEW:
@@ -666,7 +666,6 @@ namespace Slingshot {
                     view_selector_revealer.set_reveal_child (true);
                     stack.set_visible_child_name ("category");
 
-                    search_entry.grab_focus ();
                     break;
 
                 case Modality.SEARCH_VIEW:
