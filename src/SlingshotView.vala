@@ -164,10 +164,6 @@ namespace Slingshot {
             image.tooltip_text = _("View by Category");
             view_selector.append (image);
 
-            if (Slingshot.settings.use_category)
-                view_selector.selected = 1;
-            else
-                view_selector.selected = 0;
 
             search_entry = new Gtk.SearchEntry ();
             search_entry.placeholder_text = _("Search Apps");
@@ -209,9 +205,9 @@ namespace Slingshot {
             this.add (event_box);
 
             if (Slingshot.settings.use_category)
-                set_modality (Modality.CATEGORY_VIEW);
+                view_selector.selected = 1;
             else
-                set_modality (Modality.NORMAL_VIEW);
+                view_selector.selected = 0;
             debug ("Ui setup completed");
         }
 
@@ -594,18 +590,18 @@ namespace Slingshot {
 
         public void show_slingshot () {
             search_entry.text = "";
-
 /* TODO
             set_focus (null);
 */
-
             search_entry.grab_focus ();
-            // This is needed in order to not animate if the previous view was the search view.
-            view_selector_revealer.transition_type = Gtk.RevealerTransitionType.NONE;
-            stack.transition_type = Gtk.StackTransitionType.NONE;
-            set_modality ((Modality) view_selector.selected);
-            view_selector_revealer.transition_type = Gtk.RevealerTransitionType.SLIDE_RIGHT;
-            stack.transition_type = Gtk.StackTransitionType.SLIDE_LEFT_RIGHT;
+            if (modality != (Modality) view_selector.selected) {
+              // This is needed in order to not animate if the previous view was the search view.
+              view_selector_revealer.transition_type = Gtk.RevealerTransitionType.NONE;
+              stack.transition_type = Gtk.StackTransitionType.NONE;
+              set_modality ((Modality) view_selector.selected);
+              view_selector_revealer.transition_type = Gtk.RevealerTransitionType.SLIDE_RIGHT;
+              stack.transition_type = Gtk.StackTransitionType.SLIDE_LEFT_RIGHT;
+            }
         }
 
         /*
